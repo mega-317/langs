@@ -39,12 +39,9 @@ int rhs_len[] = { 0, 3, 1, 3, 1, 3, 1 };
 char token[] = { 'd', '+', '*', '(', ')', '$' };
 char NT[] = { ' ', 'E', 'T', 'F' };
 int stack[MAX];
-//int sp = 0;
 int sp;
-//int state = 0;
 int state;
 int step;
-//int inputPop = 0;
 int inputPop;
 
 int LR_Parser(char* input);
@@ -126,12 +123,6 @@ int LR_Parser_Reduce(char token, int* state, int* sp, int num, char* input) {
     int* sp_1 = sp;
 
     int order = -1 * (action_tbl[*state_1][num]); // order: reduce 몇번 명령인지
-
-    // if (rhs_len[order] == 1) { // 여기는 수정이 필요해보임
-    //     *sp_1 -=1;
-    // } else if (rhs_len[order] == 3) {
-    //     *sp_1 -=5;
-    // }
     
     int count = 0;
     while (count < rhs_len[order]) {
