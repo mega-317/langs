@@ -38,8 +38,7 @@ int rhs_len[] = { 0, 3, 1, 3, 1, 3, 1 };
 
 char token[] = { 'd', '+', '*', '(', ')', '$' };
 char NT[] = { ' ', 'E', 'T', 'F' };
-int stack[MAX];
-int sp;
+int stack[MAX] ,sp;
 int state;
 int step;
 int inputPop;
@@ -70,7 +69,7 @@ int LR_Parser(char* input) {
     inputPop = 0;
     stack[sp] = 0;
 
-    printf("(%d) initial : %d %s\n", step, stack[sp], input);
+    printf("(%d) initial : %d   %s\n", step, stack[sp], input);
     step += 1;
 
     char *string = NULL; // string 포인터에 입력값 지정
@@ -137,36 +136,63 @@ int LR_Parser_Reduce(char token, int* state, int* sp, int num, char* input) {
 
     stack[*sp_1] = lhs[order];
 
-    switch(stack[*sp_1]) {
-        case 'E':
-            if (goto_tbl[stack[*sp_1-1]][1] != 0) {
+    if (stack[*sp_1] == NT[1]) {
+        if (goto_tbl[stack[*sp_1-1]][1] != 0) {
                 *sp_1 += 1;
                 stack[*sp_1] = goto_tbl[stack[*sp_1-2]][1];
-                break;
             }
             else {
                 printf("(%d) error\n", step);
                 return -1;
             }
-        case 'T':
-            if (goto_tbl[stack[*sp_1-1]][2] != 0) {
+    } else if (stack[*sp_1] == NT[2]) {
+        if (goto_tbl[stack[*sp_1-1]][2] != 0) {
                 *sp_1 += 1;
                 stack[*sp_1] = goto_tbl[stack[*sp_1-2]][2];
-                break;
             } else {
                 printf("(%d) error\n", step);
                 return -1;
             }
-        case 'F':
-            if (goto_tbl[stack[*sp_1-1]][3] != 0) {
+    } else if (stack[*sp_1] == NT[3]) {
+        if (goto_tbl[stack[*sp_1-1]][3] != 0) {
                 *sp_1 += 1;
                 stack[*sp_1] = goto_tbl[stack[*sp_1-2]][3];
-                break;
             } else {
                 printf("(%d) error\n", step);
                 return -1;
             }
     }
+
+    // switch(stack[*sp_1]) {
+    //     case 'E':
+    //         if (goto_tbl[stack[*sp_1-1]][1] != 0) {
+    //             *sp_1 += 1;
+    //             stack[*sp_1] = goto_tbl[stack[*sp_1-2]][1];
+    //             break;
+    //         }
+    //         else {
+    //             printf("(%d) error\n", step);
+    //             return -1;
+    //         }
+    //     case 'T':
+    //         if (goto_tbl[stack[*sp_1-1]][2] != 0) {
+    //             *sp_1 += 1;
+    //             stack[*sp_1] = goto_tbl[stack[*sp_1-2]][2];
+    //             break;
+    //         } else {
+    //             printf("(%d) error\n", step);
+    //             return -1;
+    //         }
+    //     case 'F':
+    //         if (goto_tbl[stack[*sp_1-1]][3] != 0) {
+    //             *sp_1 += 1;
+    //             stack[*sp_1] = goto_tbl[stack[*sp_1-2]][3];
+    //             break;
+    //         } else {
+    //             printf("(%d) error\n", step);
+    //             return -1;
+    //         }
+    // }
 
     *state_1 = stack[*sp_1]; // 상태값 갱신
 
@@ -205,7 +231,7 @@ void Print(int* sp, char* op, int num, char* input) {
 
     input = &input[inputPop];
     
-    printf("(%d) %s %d: ", step, op, num);
+    printf("(%d)%7s %1d: ", step, op, num);
     for(int i = 0; i<*sp + 1; i++) {
         if (stack[i] > 11) {
             printf("%c", stack[i]);
@@ -213,7 +239,7 @@ void Print(int* sp, char* op, int num, char* input) {
             printf("%d", stack[i]);
         }
     }
-    printf(" %s", input);
+    printf("   %s", input);
     printf("\n");
     step += 1;
 }
