@@ -1,25 +1,26 @@
+a = int(input())
 
-while True:
-    a = int(input())
-    
-    if a == -1:
-        break
+b = list(map(int, input().split()))
 
-    array = []
+count = 0
 
-    for i in range(a - 1):
-        if a % (i+1) == 0:
-            array.append(i+1)
-            
-    c = sum(array)
-    if c != a:
-        print(f"{a} is NOT perfect.")
+for i in range(a):
+    prime = 0
+    j = 2
+    if b[i] < 2:
         continue
-        
-    print(f"{a} =", end=' ')
-    print(array[0], end='')
     
-    for i in range(len(array)-1):
-        print(" + ", end='')
-        print(array[i+1], end='')
-    print(' ')
+    while True:
+        if(j*j > b[i]):
+            break
+        
+        if b[i] % j == 0:
+            prime = 1
+            break
+        j += 1
+        
+        
+    if prime == 0:
+        count += 1
+        
+print(count)
