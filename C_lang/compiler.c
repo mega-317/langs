@@ -65,45 +65,45 @@ int main() {
 
 int LR_Parser(char* input) {
 
-    step = 1; // Àü¿ªº¯¼ö °ªµé ÃÊ±â ¼¼ÆÃ
+    step = 1; // ì „ì—­ë³€ìˆ˜ ê°’ë“¤ ì´ˆê¸° ì„¸íŒ…
     sp = 0;
     state = 0;
     inputPop = 0;
     stack[sp] = 0;
 
-    printf("%2d. initial  : %d   %s\n", step, stack[sp], input); // initial ´Ü°è Ãâ·Â   
+    printf("%2d. initial  : %d   %s\n", step, stack[sp], input); // initial ë‹¨ê³„ ì¶œë ¥   
     step += 1;
 
-    int index = 0; // ÀÔ·Â°ªÀÇ Å©±â ÃøÁ¤
+    int index = 0; // ì…ë ¥ê°’ì˜ í¬ê¸° ì¸¡ì •
     while( input[index] != '\0' ) {
         index++;
     }
 
-    for(int i=0; i<index; i++) { // ÀÔ·Â°ªÀÇ Å©±â¸¸Å­ ¹İº¹
+    for(int i=0; i<index; i++) { // ì…ë ¥ê°’ì˜ í¬ê¸°ë§Œí¼ ë°˜ë³µ
 
-        int ti = 0; // ¾î¶² ÅäÅ«ÀÎÁö ti¸¦ index·Î »ç¿ëÇÏ¿© È®ÀÎ
+        int ti = 0; // ì–´ë–¤ í† í°ì¸ì§€ tië¥¼ indexë¡œ ì‚¬ìš©í•˜ì—¬ í™•ì¸
 
         while ( token[ti] != '\0' ) {
-            if (input[i] == token[ti]) // ¾î¶² ÅäÅ«ÀÎÁö È®ÀÎ
+            if (input[i] == token[ti]) // ì–´ë–¤ í† í°ì¸ì§€ í™•ì¸
                 break;
             else {
                 ti++;
             }
         }
 
-        if ( ti == 6 ) { // ÀÔ·Â°ªÀÌ 0~5 ¹üÀ§¸¦ ¹ş¾î³ª ÇØ´çÇÏ´Â ÅäÅ«ÀÌ ¾øÀ» °æ¿ì
+        if ( ti == 6 ) { // ì…ë ¥ê°’ì´ 0~5 ë²”ìœ„ë¥¼ ë²—ì–´ë‚˜ í•´ë‹¹í•˜ëŠ” í† í°ì´ ì—†ì„ ê²½ìš°
             printf("%2d. invalid token (%c) error\n", step, input[i]);
             return -1;
         }
 
-        if ((action_tbl[state][ti] > 0) && (action_tbl[state][ti] < 999)) { // action_tblÀ» Âü°íÇÏ¿© ¾ç¼öÀÌ¸é¼­ 999°¡ ¾Æ´Ò °æ¿ì
-            LR_Parser_Shift(ti, input); // shift ¿¬»êÀ» ¼öÇàÇÑ´Ù
-        } else if (action_tbl[state][ti] < 0) { // action_tblÀ» Âü°íÇÏ¿© À½¼öÀÌ¸é
-            LR_Parser_Reduce(ti, input); // reduce ¿¬»êÀ» ¼öÇàÇÑ´Ù
-        } else if (action_tbl[state][ti] == 999) { // action_tblÀ» Âü°íÇÏ¿© 999ÀÌ¸é
+        if ((action_tbl[state][ti] > 0) && (action_tbl[state][ti] < 999)) { // action_tblì„ ì°¸ê³ í•˜ì—¬ ì–‘ìˆ˜ì´ë©´ì„œ 999ê°€ ì•„ë‹ ê²½ìš°
+            LR_Parser_Shift(ti, input); // shift ì—°ì‚°ì„ ìˆ˜í–‰í•œë‹¤
+        } else if (action_tbl[state][ti] < 0) { // action_tblì„ ì°¸ê³ í•˜ì—¬ ìŒìˆ˜ì´ë©´
+            LR_Parser_Reduce(ti, input); // reduce ì—°ì‚°ì„ ìˆ˜í–‰í•œë‹¤
+        } else if (action_tbl[state][ti] == 999) { // action_tblì„ ì°¸ê³ í•˜ì—¬ 999ì´ë©´
             printf("%2d. accept\n", step); // accept
             return 0;
-        } else { // action_tblÀ» Âü°íÇÏ¿© 0ÀÌ¸é ¿¡·¯ Ãâ·Â
+        } else { // action_tblì„ ì°¸ê³ í•˜ì—¬ 0ì´ë©´ ì—ëŸ¬ ì¶œë ¥
             printf("%2d. error\n", step);
             return -1;
         }
@@ -111,101 +111,101 @@ int LR_Parser(char* input) {
     }
 }
 
-int LR_Parser_Reduce(int index, char* input) { // reduce ¿¬»êÀ» ¼öÇàÇÏ´Â ÇÔ¼ö
+int LR_Parser_Reduce(int index, char* input) { // reduce ì—°ì‚°ì„ ìˆ˜í–‰í•˜ëŠ” í•¨ìˆ˜
 
-    int reduceNum = action_tbl[state][index]; // reduceNum: reduce ¸î¹ø ¸í·ÉÀÎÁö
-    int order = -1 * reduceNum; // order: ¸î¹øÂ° ¹®¹ıÀÎÁö
+    int reduceNum = action_tbl[state][index]; // reduceNum: reduce ëª‡ë²ˆ ëª…ë ¹ì¸ì§€
+    int order = -1 * reduceNum; // order: ëª‡ë²ˆì§¸ ë¬¸ë²•ì¸ì§€
     
-    int count = 0; // rhs_len¸¸Å­ popÀ» ÇÏ±â À§ÇØ pop °³¼ö¸¦ ¼¿ count ¼±¾ğ
+    int count = 0; // rhs_lenë§Œí¼ popì„ í•˜ê¸° ìœ„í•´ pop ê°œìˆ˜ë¥¼ ì…€ count ì„ ì–¸
     while (count < rhs_len[order]) {
-        if (stack[sp] > 11) { //ÇöÀç ½ºÅÃ top¿¡ ÀÖ´Â °Ô ¹®ÀÚ(ÅäÅ«)¶ó¸é
+        if (stack[sp] > 11) { //í˜„ì¬ ìŠ¤íƒ topì— ìˆëŠ” ê²Œ ë¬¸ì(í† í°)ë¼ë©´
             sp -= 1; // pop
-            count += 1; // count È½¼ö Ãß°¡
+            count += 1; // count íšŸìˆ˜ ì¶”ê°€
         } else {
-            sp -= 1; // »óÅÂ°ªÀÌ¸é pop ÇÑ µÚ, count´Â ¼¼Áö ¾ÊÀ½
+            sp -= 1; // ìƒíƒœê°’ì´ë©´ pop í•œ ë’¤, countëŠ” ì„¸ì§€ ì•ŠìŒ
         }
     }
 
     sp += 1;
-    stack[sp] = lhs[order]; // lhs¸¦ ½ºÅÃ¿¡ push
+    stack[sp] = lhs[order]; // lhsë¥¼ ìŠ¤íƒì— push
 
-    if (stack[sp] == NT[1]) { // ÇöÀç ½ºÅÃ top¿¡ ÀÖ´Â °Ô 'E'¶ó¸é
+    if (stack[sp] == NT[1]) { // í˜„ì¬ ìŠ¤íƒ topì— ìˆëŠ” ê²Œ 'E'ë¼ë©´
         if (goto_tbl[stack[sp-1]][1] != 0) {
                 sp += 1;
-                stack[sp] = goto_tbl[stack[sp-2]][1]; //goto_tbl Âü°íÇÏ¿© »óÅÂ°ª push
+                stack[sp] = goto_tbl[stack[sp-2]][1]; //goto_tbl ì°¸ê³ í•˜ì—¬ ìƒíƒœê°’ push
             }
             else {
                 printf("%2d. error\n", step);
                 return -1;
             }
-    } else if (stack[sp] == NT[2]) { // ÇöÀç ½ºÅÃ top¿¡ ÀÖ´Â °Ô 'T'¶ó¸é
+    } else if (stack[sp] == NT[2]) { // í˜„ì¬ ìŠ¤íƒ topì— ìˆëŠ” ê²Œ 'T'ë¼ë©´
         if (goto_tbl[stack[sp-1]][2] != 0) {
                 sp += 1;
-                stack[sp] = goto_tbl[stack[sp-2]][2]; //goto_tbl Âü°íÇÏ¿© »óÅÂ°ª push
+                stack[sp] = goto_tbl[stack[sp-2]][2]; //goto_tbl ì°¸ê³ í•˜ì—¬ ìƒíƒœê°’ push
             } else {
                 printf("%2d. error\n", step);
                 return -1;
             }
-    } else if (stack[sp] == NT[3]) { // ÇöÀç ½ºÅÃ top¿¡ ÀÖ´Â °Ô 'F'¶ó¸é
+    } else if (stack[sp] == NT[3]) { // í˜„ì¬ ìŠ¤íƒ topì— ìˆëŠ” ê²Œ 'F'ë¼ë©´
         if (goto_tbl[stack[sp-1]][3] != 0) {
                 sp += 1;
-                stack[sp] = goto_tbl[stack[sp-2]][3]; //goto_tbl Âü°íÇÏ¿© »óÅÂ°ª push
+                stack[sp] = goto_tbl[stack[sp-2]][3]; //goto_tbl ì°¸ê³ í•˜ì—¬ ìƒíƒœê°’ push
             } else {
                 printf("%2d. error\n", step);
                 return -1;
             }
     }
 
-    state = stack[sp]; // »óÅÂ°ª °»½Å
+    state = stack[sp]; // ìƒíƒœê°’ ê°±ì‹ 
 
-    Print(reduceNum, input); // reduce ¿¬»ê °á°ú Ãâ·Â
+    Print(reduceNum, input); // reduce ì—°ì‚° ê²°ê³¼ ì¶œë ¥
 
-    if (action_tbl[state][index] < 0) { // ´Ù½Ã action_tbl Âü°í
-        LR_Parser_Reduce(index, input); // À½¼öÀÌ¸é reduce ¿¬»ê
+    if (action_tbl[state][index] < 0) { // ë‹¤ì‹œ action_tbl ì°¸ê³ 
+        LR_Parser_Reduce(index, input); // ìŒìˆ˜ì´ë©´ reduce ì—°ì‚°
     } else if ((action_tbl[state][index] > 0) && (action_tbl[state][index] < 999)) {
-        LR_Parser_Shift(index, input); // ¾ç¼öÀÌ°í, 999°¡ ¾Æ´Ï¶ó¸é shift ¿¬»ê
+        LR_Parser_Shift(index, input); // ì–‘ìˆ˜ì´ê³ , 999ê°€ ì•„ë‹ˆë¼ë©´ shift ì—°ì‚°
     } else if (action_tbl[state][index] == 999) {
-        printf("%2d. accept\n", step); // 999ÀÌ¸é accept
+        printf("%2d. accept\n", step); // 999ì´ë©´ accept
         return 0;
     } else {
-        printf("%2d. error\n", step); // 0ÀÌ¸é ¿¡·¯
+        printf("%2d. error\n", step); // 0ì´ë©´ ì—ëŸ¬
         return -1;
     }
 }
 
-int LR_Parser_Shift(int index, char* input) { // shift ¿¬»êÀ» ¼öÇàÇÏ´Â ÇÔ¼ö
+int LR_Parser_Shift(int index, char* input) { // shift ì—°ì‚°ì„ ìˆ˜í–‰í•˜ëŠ” í•¨ìˆ˜
 
     sp += 1;
-    stack[sp] = token[index]; // ½ºÅÃ¿¡ ÅäÅ« push
+    stack[sp] = token[index]; // ìŠ¤íƒì— í† í° push
 
-    state = action_tbl[state][index]; // »óÅÂ°ª °»½Å
+    state = action_tbl[state][index]; // ìƒíƒœê°’ ê°±ì‹ 
 
     sp += 1;
-    stack[sp] = state; // ½ºÅÃ¿¡ »óÅÂ°ª push
+    stack[sp] = state; // ìŠ¤íƒì— ìƒíƒœê°’ push
 
-    Print(state, input); // shift ¿¬»ê °á°ú Ãâ·Â
+    Print(state, input); // shift ì—°ì‚° ê²°ê³¼ ì¶œë ¥
 }
 
 void Print(int order, char* input) {
 
-    if(order > 0) { // shift ¿¬»êÀÏ °æ¿ì ÀÔ·Â°ªÀÌ ½ºÅÃ¿¡ push µÆÀ¸¹Ç·Î inputÀÇ Ãâ·Âµµ ÇÏ³ª ÁÙ¾îµé¾î¾ß ÇÑ´Ù
+    if(order > 0) { // shift ì—°ì‚°ì¼ ê²½ìš° ì…ë ¥ê°’ì´ ìŠ¤íƒì— push ëìœ¼ë¯€ë¡œ inputì˜ ì¶œë ¥ë„ í•˜ë‚˜ ì¤„ì–´ë“¤ì–´ì•¼ í•œë‹¤
         inputPop++;
     }
-    input = &input[inputPop]; // inputÀÇ ½ÃÀÛÁ¡À» ÇÑÄ­ µÚ·Î ¹Ì·é´Ù. inputÀÇ Ãâ·ÂÀÌ ÇÏ³ª¾¿ ÁÙ¾îµç´Ù
+    input = &input[inputPop]; // inputì˜ ì‹œì‘ì ì„ í•œì¹¸ ë’¤ë¡œ ë¯¸ë£¬ë‹¤. inputì˜ ì¶œë ¥ì´ í•˜ë‚˜ì”© ì¤„ì–´ë“ ë‹¤
 
-    if (order > 0) // order°¡ À½¼öÀÎÁö ¾ç¼öÀÎÁö·Î reduce, shift ¿¬»ê ±¸ºĞ
+    if (order > 0) // orderê°€ ìŒìˆ˜ì¸ì§€ ì–‘ìˆ˜ì¸ì§€ë¡œ reduce, shift ì—°ì‚° êµ¬ë¶„
         printf("%2d.  shift %2d: ", step, order);
     else 
         printf("%2d. reduce %2d: ", step, -order);
         
-    for(int i = 0; i<sp + 1; i++) { // ½ºÅÃ¿¡ ÀúÀåµÈ ³»¿ë Ãâ·Â
-        if (stack[i] > 11) { // ÃÖ´ë »óÅÂ°ªÀ» ³Ñ´Â °ªÀÌ¸é ÅäÅ«ÀÌ¹Ç·Î ¹®ÀÚ·Î Ãâ·Â
+    for(int i = 0; i<sp + 1; i++) { // ìŠ¤íƒì— ì €ì¥ëœ ë‚´ìš© ì¶œë ¥
+        if (stack[i] > 11) { // ìµœëŒ€ ìƒíƒœê°’ì„ ë„˜ëŠ” ê°’ì´ë©´ í† í°ì´ë¯€ë¡œ ë¬¸ìë¡œ ì¶œë ¥
             printf("%c", stack[i]);
         } else {
             printf("%d", stack[i]);
         }
     }
-    printf("   %s", input); // input Ãâ·Â
+    printf("   %s", input); // input ì¶œë ¥
     printf("\n");
     step += 1;
 }
