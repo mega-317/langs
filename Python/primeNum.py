@@ -1,26 +1,19 @@
-a = int(input())
-b = int(input())
-prime = []
-i = a
-while i <= b:
-    if i >= 2:
-        j = 2
-        p = 0
-        while True:
-            if(j*j > i):
-                break
-            if i % j == 0:
-                p = 1
-                break
-            j += 1
-        
-        if p == 0:
-            prime.append(i)
+x1, y1 = map(int, input().split())
+x2, y2 = map(int, input().split())
+x3, y3 = map(int, input().split())
+
+if x1 == x2:
+    x4 = x3
+elif x2 == x3:
+    x4 = x1
+elif x1 == x3:
+    x4 = x2
+
+if y1 == y2:
+    y4 = y3
+elif y2 == y3:
+    y4 = y1
+elif y1 == y3:
+    y4 = y2
     
-    i += 1
-    
-if len(prime) == 0:
-    print(-1)
-else:
-    print(sum(prime))
-    print(min(prime))
+print(x4, y4)
