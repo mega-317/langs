@@ -1,0 +1,15 @@
+package practice;
+
+public class Exam07 {
+	public static void main(String[] args) {
+		Car myCar1 = new Car("빨강", 0);
+		Car myCar2 = new Car("파랑", 50);
+		
+		
+		myCar1.upSpeed(50);
+		System.out.println("자동차1 색상은 " + myCar1.getColor());
+		System.out.println("자동차1 속도는 " + myCar1.getSpeed());
+		System.out.println("자동차2 색상은 " + myCar2.getColor());
+		System.out.println("자동차2 속도는 " + myCar2.getSpeed());
+	}
+}

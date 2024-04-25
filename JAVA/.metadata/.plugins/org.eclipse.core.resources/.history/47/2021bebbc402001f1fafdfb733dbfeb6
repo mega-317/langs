@@ -1,0 +1,13 @@
+package practice;
+
+public class Exam07 {
+	public static void main(String[] args) {
+		Car myCar1 = new Car();
+		myCar1.color = "빨강";
+		myCar1.speed = 0;
+		
+		myCar1.upSpeed(50);
+		System.out.println("자동차 색상은 " + myCar1.getColor());
+		System.out.println("자동차 속도는 " + myCar1.getSpeed());
+	}
+}

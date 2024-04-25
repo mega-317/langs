@@ -1,0 +1,11 @@
+package practice;
+
+public class Car {
+	String color;
+}
+
+public class ClassPractice {
+	public static void main(String[] args) {
+		
+	}
+}
