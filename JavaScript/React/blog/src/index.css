@@ -11,10 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.black-nav {
-  display: flex;
-  background: black;
-  color: white;
-  padding-left: 20px;
-}
