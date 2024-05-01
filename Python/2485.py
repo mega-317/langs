@@ -31,4 +31,4 @@ newTree = d
 firstTree = b[0]
 lastTree = b[len(b)-1]
 
-print(int(((lastTree - firstTree) + 1) / newTree) - len(b))
+print((int((lastTree - firstTree) / newTree) + 1) - len(b))
