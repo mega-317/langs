@@ -10,8 +10,8 @@ a = int(input())
 for i in range(a):
     b = int(input())
     c = b
-    if c == 0:
-        print(1)
+    if c == 0 or c == 1:
+        print(2)
         continue
     while A(c) != True:
         c += 1
