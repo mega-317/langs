@@ -15,6 +15,8 @@ function App() {
 
   let [modalNum, setModalNum] = useState(0);
 
+  let [입력값, 입력값변경] = useState('');
+
   return (
     <div>
       <div className='black-nav'>
@@ -30,7 +32,8 @@ function App() {
                 setModalNum(i);
               }}>
                 {글제목[i]}
-                <span onClick={()=>{
+                <span onClick={(e)=>{
+                  e.stopPropagation();
                   let copy = [...따봉]
                   copy[i]++;
                   따봉수정(copy);
@@ -39,11 +42,34 @@ function App() {
                 </span>
                 {따봉[i]}
               </h4>
+              <button onClick={()=>{
+                  let copy = [...글제목];
+                  copy.splice(i, 1);
+                  console.log(copy);
+                  글제목수정(copy);
+
+                  let copy1 = [...따봉];
+                  copy1.splice(i, i);
+                  따봉수정(copy1);
+                }}>삭제</button>
               <p>4월 27일 발행</p>
             </div>
           )
         })
       }
+
+      <input onChange={(e)=>{
+        입력값변경(e.target.value);
+        console.log(입력값);
+      }}></input>
+      <button onClick={()=>{
+        let copy = [...글제목];
+        copy.push(입력값);
+        글제목수정(copy);
+        let copy1 = [...따봉];
+        copy1.push(0);
+        따봉수정(copy1);
+      }}>글작성</button>
 
       {
         modal ? <Modal 
