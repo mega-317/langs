@@ -1,0 +1,1 @@
+    printf("stack top: %d\n", data);
