@@ -1,17 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import { useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import data from './data.js';
 import { Route, Routes, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
+import Cart from './routes/Cart.js';
 import axios from 'axios';
+
+export let Context1 = createContext()
 
 function App() {
 
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
-  console.log(shoes);
+  let [재고] = useState([10, 11, 12])
 
   return (
     <div className="App">
@@ -21,7 +24,8 @@ function App() {
           <Navbar.Brand href="/">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={()=>{ navigate('/')}}>Home</Nav.Link>
-            <Nav.Link onClick={()=>{ navigate('/detail')}}>Detail</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/detail/0')}}>Detail</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/cart')}}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -51,15 +55,22 @@ function App() {
               .catch(()=>{
                 console.log('실패함 ㅅㄱ')
               })
-            }}>버튼</button>
+
+              
+            }}>더보기</button>
           </>
         }/>
         
-        <Route path="/detail/:id" element={ <Detail shoes={shoes} />}/>
+        <Route path="/detail/:id" element={ 
+          <Context1.Provider value={{재고, shoes}}>
+            <Detail shoes={shoes} />
+          </Context1.Provider>
+        }/>
         <Route path="/about" element={ <About /> }>
           <Route path="member" element={ <div>멤버임</div> } />
           <Route path="location" element={ <div>위치정보임</div> } />
         </Route>
+        <Route path="/cart" element={ <Cart /> }></Route>
         <Route path="*" element={ <div>404 error</div> } />
       </Routes>
 
