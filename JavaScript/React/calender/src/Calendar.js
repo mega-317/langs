@@ -11,21 +11,54 @@ export default function MyCalender() {
             {title : '과제2', date : '2024-05-11',}
         ]
     )
+
+    let [info, setInfo] = useState('')
     
     console.log(event)
 
     return (
+        <>
         <FullCalendar 
             defaultView="dayGridMonth"
             plugins={[ dayGridPlugin, interactionPlugin]}
             dateClick={(info)=>{
-                let copy = [...event];
-                copy.push(
-                    {title : '일정', date : info.dateStr}
-                )
-                setEvent(copy);
+                // let copy = [...event];
+                // copy.push(
+                //     {title : '일정', date : info.dateStr}
+                // )
+                // setEvent(copy);
+
+
+                setInfo(info.dateStr);
+            }}
+            // 일정을 클릭하면 일정 이름이 출력되도록
+            eventClick={(info)=>{
+                console.log(info.event.title)
             }}
             events={event}
         />
+        <div>
+            <EventInfo info={info} event={event}/>
+        </div>
+        </>
+    )
+}
+
+function EventInfo({info, event}) {
+    return (
+        <div>
+            {
+                event.map((a,i)=>{
+                    if (a.date == info) {
+                        console.log('일정이 존재합니다');
+                        return (
+                            <div>
+                                {a.title}
+                            </div>
+                        )
+                    }
+                })
+            }
+        </div>
     )
 }
